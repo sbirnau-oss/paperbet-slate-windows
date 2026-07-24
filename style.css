@@ -1,0 +1,75 @@
+:root {
+  --bg: #07111f;
+  --panel: #0e1c2e;
+  --panel-2: #13263d;
+  --text: #edf5ff;
+  --muted: #91a6bf;
+  --accent: #35d49a;
+  --line: #24415f;
+  --danger: #ff7b86;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top right, #123451 0, var(--bg) 42%);
+  color: var(--text);
+  font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.shell { width: min(1480px, calc(100% - 28px)); margin: 0 auto; padding: 28px 0 64px; }
+.hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+.eyebrow { margin: 0 0 4px; color: var(--accent); font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+h1 { margin: 0; font-size: clamp(34px, 6vw, 62px); line-height: 1; }
+.meta { margin: 12px 0 0; color: var(--muted); }
+.lock-badge { border: 1px solid #2f745e; border-radius: 999px; padding: 8px 12px; color: var(--accent); background: #0c2a25; font-size: 12px; font-weight: 800; }
+
+.unlock-panel, .paperbet-day-slate-panel {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
+}
+
+.unlock-panel { max-width: 620px; }
+.unlock-panel h2, .paperbet-day-slate-panel h2 { margin-top: 0; }
+.unlock-panel p { color: var(--muted); }
+.unlock-panel label { display: block; margin-bottom: 7px; font-weight: 700; }
+.unlock-row { display: flex; gap: 10px; }
+.unlock-row input, .paperbet-day-slate-filters select {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  background: #081523;
+  color: var(--text);
+}
+.unlock-row input { flex: 1; }
+button { border: 0; border-radius: 10px; padding: 11px 18px; background: var(--accent); color: #052016; font-weight: 900; cursor: pointer; }
+.error { min-height: 22px; color: var(--danger) !important; }
+
+.paperbet-day-slate-filters, .paperbet-day-slate-summary, .paperbet-shadow-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+.paperbet-day-slate-filters { margin: 20px 0; }
+.paperbet-day-slate-filters label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; }
+.paperbet-day-slate-summary span, .paperbet-shadow-grid span { border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; background: var(--panel-2); }
+.paperbet-shadow-summary { margin-top: 20px; }
+.paperbet-day-slate-group { margin-top: 24px; overflow-x: auto; }
+.paperbet-day-slate-group h3 { position: sticky; left: 0; }
+.paperbet-day-slate-table { width: 100%; min-width: 1050px; border-collapse: collapse; }
+.paperbet-day-slate-table th, .paperbet-day-slate-table td { border-bottom: 1px solid var(--line); padding: 10px 9px; text-align: left; vertical-align: top; }
+.paperbet-day-slate-table th { color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.paperbet-day-slate-row.priority-high td:first-child { border-left: 4px solid #ffad42; padding-left: 10px; }
+.paperbet-day-slate-row.refresh-required { background: rgba(255, 173, 66, .04); }
+.paperbet-day-slate-row.odds-low-confidence { color: #ffd08a; }
+.paperbet-day-slate-empty { color: var(--muted); }
+
+@media (max-width: 700px) {
+  .shell { width: min(100% - 18px, 1480px); padding-top: 18px; }
+  .hero { display: block; }
+  .lock-badge { display: inline-block; margin-top: 14px; }
+  .unlock-row { display: grid; }
+  .unlock-panel, .paperbet-day-slate-panel { padding: 16px; border-radius: 14px; }
+}

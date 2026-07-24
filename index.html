@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>PaperBet Daily Slate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">PaperBet</p>
+        <h1>Daily Slate</h1>
+        <p id="publication-meta" class="meta">Se încarcă payload-ul criptat…</p>
+      </div>
+      <span class="lock-badge">AES-256-GCM</span>
+    </header>
+
+    <section id="unlock-panel" class="unlock-panel">
+      <h2>Deblochează slate-ul</h2>
+      <p>Cheia rămâne în browser și nu este trimisă către GitHub.</p>
+      <form id="unlock-form">
+        <label for="passphrase">Cheie de decriptare</label>
+        <div class="unlock-row">
+          <input id="passphrase" name="passphrase" type="password" autocomplete="current-password" required disabled>
+          <button id="unlock-button" type="submit" disabled>Deschide</button>
+        </div>
+      </form>
+      <p id="unlock-error" class="error" role="alert"></p>
+    </section>
+
+    <section id="slate-root" hidden></section>
+  </main>
+
+  <script src="paperbet-day-slate-ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
