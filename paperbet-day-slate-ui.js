@@ -3,6 +3,17 @@
  * @type deterministic
  */
 
+(function exposePaperBetDaySlateUi(root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) {
+    module.exports = api;
+  }
+  if (root) {
+    root.PaperBetDaySlateUi = api;
+  }
+})(typeof globalThis !== 'undefined' ? globalThis : this, function createPaperBetDaySlateUi() {
+  'use strict';
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll('&', '&amp;')
@@ -26,9 +37,12 @@ function renderFilter(name, options, selectedValue) {
 }
 
 function renderRow(row) {
+  const priorityClass = ['high', 'medium', 'low'].includes(row.analysisPriority)
+    ? row.analysisPriority
+    : 'unknown';
   const rowClasses = [
     'paperbet-day-slate-row',
-    `priority-${row.analysisPriority}`,
+    `priority-${priorityClass}`,
     row.refreshRequiredLabel === 'yes' ? 'refresh-required' : '',
     row.oddsLayerQuality === 'low_confidence' ? 'odds-low-confidence' : '',
     row.integrityFlags.length ? 'has-integrity-flags' : '',
@@ -119,12 +133,5 @@ function renderPaperBetDaySlateSection(model) {
   `;
 }
 
-const paperBetDaySlateUi = { renderPaperBetDaySlateSection };
-
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = paperBetDaySlateUi;
-}
-
-if (typeof window !== 'undefined') {
-  window.PaperBetDaySlateUi = paperBetDaySlateUi;
-}
+  return { renderPaperBetDaySlateSection };
+});
