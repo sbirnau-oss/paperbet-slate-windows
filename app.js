@@ -7,6 +7,7 @@
     model: null,
     selectedFilters: {
       windowOwner: '',
+      leaguePriority: '',
       analysisPriority: '',
       refreshRequired: 'all',
     },
@@ -55,6 +56,7 @@
     const selected = state.selectedFilters;
     const rows = model.rows.filter(row => {
       if (selected.windowOwner && row.windowOwner !== selected.windowOwner) return false;
+      if (selected.leaguePriority && row.leaguePriority !== selected.leaguePriority) return false;
       if (selected.analysisPriority && row.analysisPriority !== selected.analysisPriority) return false;
       if (selected.refreshRequired !== 'all' && row.refreshRequiredLabel !== selected.refreshRequired) return false;
       return true;
@@ -69,6 +71,9 @@
       groups,
       summary: {
         total: rows.length,
+        highCompetitionPriority: rows.filter(row => row.leaguePriority === 'high').length,
+        highAnalysisReadiness: rows.filter(row => row.analysisPriority === 'high').length,
+        // Backward-compatible alias for older renderer/model combinations.
         highPriority: rows.filter(row => row.analysisPriority === 'high').length,
         refreshRequired: rows.filter(row => row.refreshRequiredLabel === 'yes').length,
       },

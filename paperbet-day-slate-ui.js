@@ -23,29 +23,37 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
-function renderFilter(name, options, selectedValue) {
+function renderFilter(name, label, options, selectedValue) {
   const renderedOptions = ['<option value="">all</option>']
     .concat(options.map((option) => `<option value="${escapeHtml(option)}" ${option === selectedValue ? 'selected' : ''}>${escapeHtml(option)}</option>`))
     .join('');
 
   return `
     <label>
-      ${escapeHtml(name)}
+      ${escapeHtml(label)}
       <select data-paperbet-filter="${escapeHtml(name)}">${renderedOptions}</select>
     </label>
   `;
 }
 
 function renderRow(row) {
-  const priorityClass = ['high', 'medium', 'low'].includes(row.analysisPriority)
+  const leaguePriority = row.leaguePriority || 'unknown';
+  const analysisPriority = row.analysisPriority || 'unknown';
+  const coveragePolicy = row.coveragePolicy || 'unknown';
+  const competitionPriorityClass = ['high', 'medium', 'low'].includes(leaguePriority)
+    ? leaguePriority
+    : 'unknown';
+  const analysisPriorityClass = ['high', 'medium', 'low'].includes(analysisPriority)
     ? row.analysisPriority
     : 'unknown';
   const rowClasses = [
     'paperbet-day-slate-row',
-    `priority-${priorityClass}`,
+    `competition-priority-${competitionPriorityClass}`,
+    `analysis-priority-${analysisPriorityClass}`,
+    `priority-${analysisPriorityClass}`,
     row.refreshRequiredLabel === 'yes' ? 'refresh-required' : '',
     row.oddsLayerQuality === 'low_confidence' ? 'odds-low-confidence' : '',
-    row.integrityFlags.length ? 'has-integrity-flags' : '',
+    Array.isArray(row.integrityFlags) && row.integrityFlags.length ? 'has-integrity-flags' : '',
   ].filter(Boolean).join(' ');
 
   return `
@@ -54,11 +62,13 @@ function renderRow(row) {
       <td>${escapeHtml(row.league)}</td>
       <td>${escapeHtml(row.kickoffBerlin)}</td>
       <td>${escapeHtml(row.windowOwner)}</td>
-      <td>${escapeHtml(row.analysisPriority)}</td>
+      <td>${escapeHtml(leaguePriority)}</td>
+      <td>${escapeHtml(analysisPriority)}</td>
+      <td>${escapeHtml(coveragePolicy)}</td>
       <td>${escapeHtml(row.mlAvailableLabel)}</td>
       <td>${escapeHtml(row.oddsLayerQuality)}</td>
       <td>${escapeHtml(row.refreshRequiredLabel)}</td>
-      <td>${escapeHtml(row.integrityFlags.join(', ') || '—')}</td>
+      <td>${escapeHtml((Array.isArray(row.integrityFlags) && row.integrityFlags.join(', ')) || '—')}</td>
     </tr>
   `;
 }
@@ -75,9 +85,10 @@ function renderPaperBetDaySlateSection(model) {
 
   const filterBar = `
     <div class="paperbet-day-slate-filters">
-      ${renderFilter('windowOwner', model.filters.windowOwner || [], model.selectedFilters.windowOwner)}
-      ${renderFilter('analysisPriority', model.filters.analysisPriority || [], model.selectedFilters.analysisPriority)}
-      ${renderFilter('refreshRequired', model.filters.refreshRequired || ['all', 'yes', 'no'], model.selectedFilters.refreshRequired)}
+      ${renderFilter('windowOwner', 'Window owner', model.filters.windowOwner || [], model.selectedFilters.windowOwner)}
+      ${renderFilter('leaguePriority', 'Competition priority', model.filters.leaguePriority || [], model.selectedFilters.leaguePriority)}
+      ${renderFilter('analysisPriority', 'Analysis readiness', model.filters.analysisPriority || [], model.selectedFilters.analysisPriority)}
+      ${renderFilter('refreshRequired', 'Refresh required', model.filters.refreshRequired || ['all', 'yes', 'no'], model.selectedFilters.refreshRequired)}
     </div>
   `;
 
@@ -105,7 +116,9 @@ function renderPaperBetDaySlateSection(model) {
             <th>League</th>
             <th>Kickoff</th>
             <th>Window</th>
-            <th>Priority</th>
+            <th>Competition priority</th>
+            <th>Analysis readiness</th>
+            <th>Coverage policy</th>
             <th>ML</th>
             <th>Odds</th>
             <th>Refresh</th>
@@ -124,7 +137,8 @@ function renderPaperBetDaySlateSection(model) {
       ${filterBar}
       <div class="paperbet-day-slate-summary">
         <span>Total: ${escapeHtml(model.summary.total)}</span>
-        <span>High priority: ${escapeHtml(model.summary.highPriority)}</span>
+        <span>High-competition fixtures: ${escapeHtml(model.summary.highCompetitionPriority ?? 0)}</span>
+        <span>High analysis readiness: ${escapeHtml(model.summary.highAnalysisReadiness ?? model.summary.highPriority ?? 0)}</span>
         <span>Refresh required: ${escapeHtml(model.summary.refreshRequired)}</span>
       </div>
       ${shadowSummary}

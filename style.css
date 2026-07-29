@@ -58,10 +58,10 @@ button { border: 0; border-radius: 10px; padding: 11px 18px; background: var(--a
 .paperbet-shadow-summary { margin-top: 20px; }
 .paperbet-day-slate-group { margin-top: 24px; overflow-x: auto; }
 .paperbet-day-slate-group h3 { position: sticky; left: 0; }
-.paperbet-day-slate-table { width: 100%; min-width: 1050px; border-collapse: collapse; }
+.paperbet-day-slate-table { width: 100%; min-width: 1260px; border-collapse: collapse; }
 .paperbet-day-slate-table th, .paperbet-day-slate-table td { border-bottom: 1px solid var(--line); padding: 10px 9px; text-align: left; vertical-align: top; }
 .paperbet-day-slate-table th { color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
-.paperbet-day-slate-row.priority-high td:first-child { border-left: 4px solid #ffad42; padding-left: 10px; }
+.paperbet-day-slate-row.competition-priority-high td:first-child { border-left: 4px solid #ffad42; padding-left: 10px; }
 .paperbet-day-slate-row.refresh-required { background: rgba(255, 173, 66, .04); }
 .paperbet-day-slate-row.odds-low-confidence { color: #ffd08a; }
 .paperbet-day-slate-empty { color: var(--muted); }
