@@ -130,10 +130,16 @@ function renderPaperBetDaySlateSection(model) {
     </section>
   `).join('');
 
+  const publicationWarnings = (model.publicationWarnings || [])
+    .filter((warning) => warning.reason === 'required_full_odds_incomplete')
+    .map((warning) => `<p class="paperbet-publication-warning" role="status">⚠️ Warning: incomplete odds for ${escapeHtml(warning.missing_required_full)} required-coverage fixtures (${escapeHtml(warning.required_full_complete)}/${escapeHtml(warning.required_full_total)} complete). Publication is allowed; affected fixtures still require odds refresh before pick decisions. Fixture IDs: ${escapeHtml((warning.fixture_ids || []).join(', '))}.</p>`)
+    .join('');
+
   return `
     <section class="paperbet-day-slate-panel">
       <h2>🗓️ PaperBet Day Slate</h2>
       <p>Operational day: ${escapeHtml(model.operationalDay)}</p>
+      ${publicationWarnings}
       ${filterBar}
       <div class="paperbet-day-slate-summary">
         <span>Total: ${escapeHtml(model.summary.total)}</span>
